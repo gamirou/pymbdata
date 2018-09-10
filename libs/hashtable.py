@@ -1,5 +1,7 @@
 from linkedlist import LinkedList
-from others import *
+from stack import Stack
+from queue import Queue
+from bst import BST, BinaryNode
 
 class HashTable:
     """Object that behaves like a hash table (almost! it is mutant >:O)"""

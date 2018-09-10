@@ -1,8 +1,6 @@
-from hashtable import HashTable
-from linkedlist import LinkedList
-from others import Stack
+import libs
 
-hash1 = HashTable()
+hash1 = libs.hashtable.HashTable()
 hash1.insert("George", 23)
 hash1.insert("Egorge", 14)
 hash1.insert("Fforge", 12)
