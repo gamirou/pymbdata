@@ -1,6 +1,8 @@
-import libs
+import sys
+sys.path.insert(0, r'.\libs')
+from hashtable import *
 
-hash1 = libs.hashtable.HashTable()
+hash1 = HashTable()
 hash1.insert("George", 23)
 hash1.insert("Egorge", 14)
 hash1.insert("Fforge", 12)
