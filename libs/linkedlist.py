@@ -1,4 +1,4 @@
-class Node:
+class LinkedNode:
     """An object that represents a node inside a linked list"""
     def __init__(self, data=None, prev=None, next_=None):
         self.data = data
@@ -7,7 +7,7 @@ class Node:
 
     def copy(self):
         """Returns a copy of itself"""
-        return Node(self.data, self.prev, self.next)
+        return LinkedNode(self.data, self.prev, self.next)
 
 class LinkedList:
     """An object that behaves like a linked list"""
@@ -41,19 +41,19 @@ class LinkedList:
         # Checks if list is empty
         current = self.head
         if current is None:
-            self.head = self.tail = Node(value)
+            self.head = self.tail = LinkedNode(value)
             return
     
         # If the value is smaller than the head
         if current.data > value:
             # If there is a single item
             if self.tail == self.head:
-                self.head = Node(data = value, prev = None, next_ = current)
-                self.tail = Node(data = current.data, prev = self.head, next_ = None)
+                self.head = LinkedNode(data = value, prev = None, next_ = current)
+                self.tail = LinkedNode(data = current.data, prev = self.head, next_ = None)
                 current = self.tail
             else:
                 current = self.head
-                self.head = Node(data = value, prev = None, next_ = current)
+                self.head = LinkedNode(data = value, prev = None, next_ = current)
             return
 
         # If it is in the middle or at the end
@@ -63,12 +63,12 @@ class LinkedList:
             current = current.next
 
         # Found the correct place
-        newNode = Node(value, current, current.next)
-        current.next = newNode
+        newLinkedNode = LinkedNode(value, current, current.next)
+        current.next = newLinkedNode
         
         # If it is the tail, don't change previous attribute
         if current.next.next != None:
-            current.next.next.prev = newNode
+            current.next.next.prev = newLinkedNode
 
     def remove(self, value):
         """Removes a value if it is present by the key"""
@@ -164,12 +164,12 @@ class LinkedList:
 
     def __str__(self):
         """Returns a string representation to visualize the linked list"""
-        node = self.head
+        linkedNode = self.head
         sList = ""
 
-        while node != None:
-            sList += "{} => ".format(node.data)
-            node = node.next
+        while linkedNode != None:
+            sList += "{} => ".format(linkedNode.data)
+            linkedNode = linkedNode.next
         
         # sList[:-4] so the last arrow is removed
         return (sList[:-4] if sList != "" else "The linked list is empty")

@@ -7,8 +7,11 @@ class HashTable:
     """Object that behaves like a hash table (almost! it is mutant >:O)"""
     TABLE_SIZE=32
 
-    def __init__(self):
+    def __init__(self, dictionary=None):
         self.table=[None] * HashTable.TABLE_SIZE
+        # If dictionary passed as an argument
+        if isinstance(dictionary, dict):
+            self.insert(dictionary)
 
     def fnHash(self, key):
         """Returns a hash through a simple hashing function"""
@@ -19,7 +22,7 @@ class HashTable:
 
         return hash % HashTable.TABLE_SIZE
 
-    def insert(self, key, value):
+    def __setitem__(self, key, value):
         """Inserts a key and value in the table"""
         index=self.fnHash(key)
 
@@ -28,6 +31,23 @@ class HashTable:
             self.table[index]=LinkedList()
 
         self.table[index].insert((key, value))
+
+    def __getitem__(self, key):
+        index=self.fnHash(key)
+
+        current = self.table[index].head
+        while current is not None:
+            if current.data[0] == key:
+                return current.data[1]
+            current = current.next
+
+        print("Item not found")
+        return False
+
+    def insert(self, dictionary):
+        """Inserts a dictionary to the hash table"""
+        for key in dictionary:
+            self[key] = dictionary[key]
 
     def remove(self, key):
         """Removes a value from the hash table"""

@@ -3,25 +3,38 @@ sys.path.insert(0, r'.\libs')
 from hashtable import *
 
 hash1 = HashTable()
-hash1.insert("George", 23)
-hash1.insert("Egorge", 14)
-hash1.insert("Fforge", 12)
-hash1.insert("Hdorge", 15)
+hash1["Boi"] = 90
+print(hash1["Boi"])
 
-hash1.insert("Love", 25)
-hash1.insert("Hate", 16)
+hash1["George"] = 23
+hash1["Egorge"] = 14
+hash1["Fforge"] = 12
+hash1["Hdorge"] = 15
+hash1["Love"] = 25
+hash1["Hate"] = 16
 
 hash2 = HashTable()
-hash2.insert("Kovf", 32)
-hash2.insert("Ibte", 56)
+hash2["Kovf"] = 32
+hash2["Ibte"] = 56
 
 hash3 = hash1.merge(hash2)
+
+dictionaryHash = {
+    "Name": "Bob Smith",
+    "Age": 29,
+    "Job": "Software Developer"
+}
+
+hash4 = HashTable(dictionaryHash)
+
 print("Hash 1: ")
 print(hash1)
 print("Hash 2: ")
 print(hash2)
 print("Hash 3: ")
 print(hash3)
+print("Hash 4: ")
+print(hash4)
 
 print("All sorted linked lists inside hash 1")
 allLists = hash1.getList()
