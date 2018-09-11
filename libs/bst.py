@@ -1,18 +1,4 @@
-class BinaryNode:
-    """A node similar to the linked list, but it has left and right attributes"""
-
-    def __init__(self, data=None, parent=None, left=None, right=None):
-        self.data = data
-        self.left = left
-        self.right = right
-        self.parent = parent
-    
-    def printTree(self):
-        if self.left:
-            self.left.printTree()
-        print(self.data, end=" -- ")
-        if self.right:
-            self.right.printTree()
+from node import Node
 
 class BST:
     """A simple class that represents a binary search tree"""
@@ -28,7 +14,7 @@ class BST:
             return
 
         if self.root is None:
-            self.root = BinaryNode(value)
+            self.root = Node(data=value, left=None, right=None, parent=None)
         else:
             self._insert(value, self.root)
         
@@ -37,16 +23,11 @@ class BST:
     def _insert(self, value, node):
         if node.data < value:
             if node.right is None:
-                node.right = BinaryNode(value, node)
+                node.right = Node(data=value, parent=node, left=None, right=None)
             else:
                 self._insert(value, node.right)
         else:
             if node.left is None:
-                node.left = BinaryNode(value, node)
+                node.left = Node(data=value, parent=node, left=None, right=None)
             else:
                 self._insert(value, node.left)
-
-    def showSorted(self):
-        print("Binary Tree's nodes in order:")
-        print("-- ", end="")
-        self.root.printTree()

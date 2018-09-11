@@ -1,15 +1,5 @@
 from node import Node
 
-class LinkedNode:
-    """An object that represents a node inside a linked list"""
-    def __init__(self, data=None, prev=None, next_=None):
-        self.data = data
-        self.prev = prev
-        self.next = next_
-
-    def copy(self):
-        return LinkedNode(self.data, self.prev, self.next)
-
 class LinkedList:
     """An object that behaves like a linked list"""
 
@@ -42,19 +32,19 @@ class LinkedList:
         # Checks if list is empty
         current = self.head
         if current is None:
-            self.head = self.tail = LinkedNode(value)#next=None ,prev=None, data=value)
+            self.head = self.tail = Node(data=value, next=None, prev=None)
             return
     
         # If the value is smaller than the head
         if current.data > value:
             # If there is a single item
             if self.tail == self.head:
-                self.head = LinkedNode(data = value, prev = None, next_ = current)
-                self.tail = LinkedNode(data = current.data, prev = self.head, next_ = None)
+                self.head = Node(data = value, prev = None, next = current)
+                self.tail = Node(data = current.data, prev = self.head, next = None)
                 current = self.tail
             else:
                 current = self.head
-                self.head = LinkedNode(data = value, prev = None, next_ = current)
+                self.head = Node(data = value, prev = None, next = current)
             return
 
         # If it is in the middle or at the end
@@ -64,12 +54,12 @@ class LinkedList:
             current = current.next
 
         # Found the correct place
-        newLinkedNode = LinkedNode(value, current, current.next)
-        current.next = newLinkedNode
+        newNode = Node(data=value, prev=current, next=current.next)
+        current.next = newNode
         
         # If it is the tail, don't change previous attribute
         if current.next.next != None:
-            current.next.next.prev = newLinkedNode
+            current.next.next.prev = newNode
 
     def remove(self, value):
         """Removes a value if it is present by the key"""

@@ -64,4 +64,3 @@ print("The new queue is: {}\n".format(queue))
 
 print("Hash 1 to Binary Tree")
 binaryTree = hash1.toBST()
-binaryTree.showSorted()
