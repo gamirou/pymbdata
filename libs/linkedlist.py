@@ -1,3 +1,5 @@
+from node import Node
+
 class LinkedNode:
     """An object that represents a node inside a linked list"""
     def __init__(self, data=None, prev=None, next_=None):
@@ -6,7 +8,6 @@ class LinkedNode:
         self.next = next_
 
     def copy(self):
-        """Returns a copy of itself"""
         return LinkedNode(self.data, self.prev, self.next)
 
 class LinkedList:
@@ -41,7 +42,7 @@ class LinkedList:
         # Checks if list is empty
         current = self.head
         if current is None:
-            self.head = self.tail = LinkedNode(value)
+            self.head = self.tail = LinkedNode(value)#next=None ,prev=None, data=value)
             return
     
         # If the value is smaller than the head
