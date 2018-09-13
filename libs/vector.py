@@ -98,16 +98,321 @@ class Vector:
             raise TypeError("Your input has to be a vector, a scalar, a list or a tuple.")
 
         return self
-
-    # def __sub__(self, other):
-    #     return Vector(self.x - other.x, self.y - other.y, self.z - other.z)
-
-    # def __isub__(self, other):
-    #     self.x -= other.x
-    #     self.y -= other.y
-    #     self.z -= other.z
-    #     return self
     
+    def __sub__(self, other):
+        newX, newY, newZ = 0, 0, 0
+        if isinstance(other, int) or isinstance(other, float):
+            newX = self.x - other
+            newY = self.y - other
+            if self.z != 0:
+                newZ = self.z - other
+        elif isinstance(other, tuple) or isinstance(other, list):
+            # If 2D vector
+            if self.z == 0:
+                if len(other) == 2:
+                    newX = self.x - other[0]
+                    newY = self.y - other[1]
+                else:
+                    raise ValueError("Your list has to be of length 2.")
+            # If 3D vector
+            else:
+                if len(other) == 3:
+                    newX = self.x - other[0]
+                    newY = self.y - other[1]
+                    newZ = self.z - other[2]
+                else:
+                    raise ValueError("Your list has to be of length 3.")
+        elif isinstance(other, Vector):
+            newX = self.x - other.x
+            newY = self.y - other.y
+            newZ = self.z - other.z
+        else:
+            raise TypeError("Your input has to be a vector, a scalar, a list or a tuple.")
+
+        return Vector(newX, newY, newZ)
+
+    def __isub__(self, other):
+        if isinstance(other, int) or isinstance(other, float):
+            self.x -= other
+            self.y -= other
+            if self.z != 0:
+                self.z -= other
+        elif isinstance(other, tuple) or isinstance(other, list):
+            # If 2D vector
+            if self.z == 0:
+                if len(other) == 2:
+                    self.x -= other[0]
+                    self.y -= other[1]
+                else:
+                    raise ValueError("Your list has to be of length 2.")
+            # If 3D vector
+            else:
+                if len(other) == 3:
+                    self.x -= other[0]
+                    self.y -= other[1]
+                    self.z -= other[2]
+                else:
+                    raise ValueError("Your list has to be of length 3.")
+        elif isinstance(other, Vector):
+            self.x -= other.x
+            self.y -= other.y
+            self.z -= other.z
+        else:
+            raise TypeError("Your input has to be a vector, a scalar, a list or a tuple.")
+
+        return self
+
+    def __mul__(self, other):
+        newX, newY, newZ = 0, 0, 0
+        if isinstance(other, int) or isinstance(other, float):
+            newX = self.x * other
+            newY = self.y * other
+            if self.z != 0:
+                newZ = self.z * other
+        elif isinstance(other, tuple) or isinstance(other, list):
+            # If 2D vector
+            if self.z == 0:
+                if len(other) == 2:
+                    newX = self.x * other[0]
+                    newY = self.y * other[1]
+                else:
+                    raise ValueError("Your list has to be of length 2.")
+            # If 3D vector
+            else:
+                if len(other) == 3:
+                    newX = self.x * other[0]
+                    newY = self.y * other[1]
+                    newZ = self.z * other[2]
+                else:
+                    raise ValueError("Your list has to be of length 3.")
+        elif isinstance(other, Vector):
+            newX = self.x * other.x
+            newY = self.y * other.y
+            newZ = self.z * other.z
+        else:
+            raise TypeError("Your input has to be a vector, a scalar, a list or a tuple.")
+
+        return Vector(newX, newY, newZ)
+
+    def __imul__(self, other):
+        if isinstance(other, int) or isinstance(other, float):
+            self.x *= other
+            self.y *= other
+            if self.z != 0:
+                self.z *= other
+        elif isinstance(other, tuple) or isinstance(other, list):
+            # If 2D vector
+            if self.z == 0:
+                if len(other) == 2:
+                    self.x *= other[0]
+                    self.y *= other[1]
+                else:
+                    raise ValueError("Your list has to be of length 2.")
+            # If 3D vector
+            else:
+                if len(other) == 3:
+                    self.x *= other[0]
+                    self.y *= other[1]
+                    self.z *= other[2]
+                else:
+                    raise ValueError("Your list has to be of length 3.")
+        elif isinstance(other, Vector):
+            self.x *= other.x
+            self.y *= other.y
+            self.z *= other.z
+        else:
+            raise TypeError("Your input has to be a vector, a scalar, a list or a tuple.")
+
+        return self
+
+    def __div__(self, other):
+        newX, newY, newZ = 0, 0, 0
+        if isinstance(other, int) or isinstance(other, float):
+            newX = self.x / other
+            newY = self.y / other
+            if self.z != 0:
+                newZ = self.z / other
+        elif isinstance(other, tuple) or isinstance(other, list):
+            # If 2D vector
+            if self.z == 0:
+                if len(other) == 2:
+                    newX = self.x / other[0]
+                    newY = self.y / other[1]
+                else:
+                    raise ValueError("Your list has to be of length 2.")
+            # If 3D vector
+            else:
+                if len(other) == 3:
+                    newX = self.x / other[0]
+                    newY = self.y / other[1]
+                    newZ = self.z / other[2]
+                else:
+                    raise ValueError("Your list has to be of length 3.")
+        elif isinstance(other, Vector):
+            newX = self.x / other.x
+            newY = self.y / other.y
+            newZ = self.z / other.z
+        else:
+            raise TypeError("Your input has to be a vector, a scalar, a list or a tuple.")
+
+        return Vector(newX, newY, newZ)
+
+    def __idiv__(self, other):
+        if isinstance(other, int) or isinstance(other, float):
+            self.x /= other
+            self.y /= other
+            if self.z != 0:
+                self.z /= other
+        elif isinstance(other, tuple) or isinstance(other, list):
+            # If 2D vector
+            if self.z == 0:
+                if len(other) == 2:
+                    self.x /= other[0]
+                    self.y /= other[1]
+                else:
+                    raise ValueError("Your list has to be of length 2.")
+            # If 3D vector
+            else:
+                if len(other) == 3:
+                    self.x /= other[0]
+                    self.y /= other[1]
+                    self.z /= other[2]
+                else:
+                    raise ValueError("Your list has to be of length 3.")
+        elif isinstance(other, Vector):
+            self.x /= other.x
+            self.y /= other.y
+            self.z /= other.z
+        else:
+            raise TypeError("Your input has to be a vector, a scalar, a list or a tuple.")
+
+        return self
+
+    def __floordiv__(self, other):
+        newX, newY, newZ = 0, 0, 0
+        if isinstance(other, int) or isinstance(other, float):
+            newX = self.x // other
+            newY = self.y // other
+            if self.z != 0:
+                newZ = self.z // other
+        elif isinstance(other, tuple) or isinstance(other, list):
+            # If 2D vector
+            if self.z == 0:
+                if len(other) == 2:
+                    newX = self.x // other[0]
+                    newY = self.y // other[1]
+                else:
+                    raise ValueError("Your list has to be of length 2.")
+            # If 3D vector
+            else:
+                if len(other) == 3:
+                    newX = self.x // other[0]
+                    newY = self.y // other[1]
+                    newZ = self.z // other[2]
+                else:
+                    raise ValueError("Your list has to be of length 3.")
+        elif isinstance(other, Vector):
+            newX = self.x // other.x
+            newY = self.y // other.y
+            newZ = self.z // other.z
+        else:
+            raise TypeError("Your input has to be a vector, a scalar, a list or a tuple.")
+
+        return Vector(newX, newY, newZ)
+
+    def __ifloordiv__(self, other):
+        if isinstance(other, int) or isinstance(other, float):
+            self.x //= other
+            self.y //= other
+            if self.z != 0:
+                self.z //= other
+        elif isinstance(other, tuple) or isinstance(other, list):
+            # If 2D vector
+            if self.z == 0:
+                if len(other) == 2:
+                    self.x //= other[0]
+                    self.y //= other[1]
+                else:
+                    raise ValueError("Your list has to be of length 2.")
+            # If 3D vector
+            else:
+                if len(other) == 3:
+                    self.x //= other[0]
+                    self.y //= other[1]
+                    self.z //= other[2]
+                else:
+                    raise ValueError("Your list has to be of length 3.")
+        elif isinstance(other, Vector):
+            self.x //= other.x
+            self.y //= other.y
+            self.z //= other.z
+        else:
+            raise TypeError("Your input has to be a vector, a scalar, a list or a tuple.")
+
+        return self
+
+    def __pow__(self, other):
+        newX, newY, newZ = 0, 0, 0
+        if isinstance(other, int) or isinstance(other, float):
+            newX = self.x ** other
+            newY = self.y ** other
+            if self.z != 0:
+                newZ = self.z ** other
+        elif isinstance(other, tuple) or isinstance(other, list):
+            # If 2D vector
+            if self.z == 0:
+                if len(other) == 2:
+                    newX = self.x ** other[0]
+                    newY = self.y ** other[1]
+                else:
+                    raise ValueError("Your list has to be of length 2.")
+            # If 3D vector
+            else:
+                if len(other) == 3:
+                    newX = self.x ** other[0]
+                    newY = self.y ** other[1]
+                    newZ = self.z ** other[2]
+                else:
+                    raise ValueError("Your list has to be of length 3.")
+        elif isinstance(other, Vector):
+            newX = self.x ** other.x
+            newY = self.y ** other.y
+            newZ = self.z ** other.z
+        else:
+            raise TypeError("Your input has to be a vector, a scalar, a list or a tuple.")
+
+        return Vector(newX, newY, newZ)
+
+    def __ipow__(self, other):
+        if isinstance(other, int) or isinstance(other, float):
+            self.x **= other
+            self.y **= other
+            if self.z != 0:
+                self.z **= other
+        elif isinstance(other, tuple) or isinstance(other, list):
+            # If 2D vector
+            if self.z == 0:
+                if len(other) == 2:
+                    self.x **= other[0]
+                    self.y **= other[1]
+                else:
+                    raise ValueError("Your list has to be of length 2.")
+            # If 3D vector
+            else:
+                if len(other) == 3:
+                    self.x **= other[0]
+                    self.y **= other[1]
+                    self.z **= other[2]
+                else:
+                    raise ValueError("Your list has to be of length 3.")
+        elif isinstance(other, Vector):
+            self.x **= other.x
+            self.y **= other.y
+            self.z **= other.z
+        else:
+            raise TypeError("Your input has to be a vector, a scalar, a list or a tuple.")
+
+        return self
 
 """
 normalize()
