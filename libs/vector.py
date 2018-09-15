@@ -513,6 +513,16 @@ class Vector:
         else:
             raise ValueError("The only types accepted are radians and degrees.")
 
+    @property
+    def heading(self):
+        return math.atan(self.y / self.x)
+
+    def lerp(self, other, ratio):
+        first_half = self.__mul__(1 - ratio)
+        second_half = other.__mul__(ratio)
+        return first_half.__mul__(second_half)
+
+
 # This is where we add unit vectors
 UNIT = {
     "i": Vector(1, 0, 0),
@@ -524,6 +534,8 @@ UNIT = {
 TODO:
 
 limit() 	Limit the magnitude of the vector
-heading() 	Calculate the angle of rotation for this vector
-lerp() 	Linear interpolate the vector to another vector
+
+TODO in future versions
+slerp() 	Spherical interpolate the vector to another vector
+nlerp() 	Normalized linear interpolate the vector to another vector
 """
