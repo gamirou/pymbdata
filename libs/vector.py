@@ -1,7 +1,8 @@
 import random
 import math
 
-from exception import *
+from matrix import *
+
 
 class Vector:
     """An object that has three attributes, x, y and z coordinates. Useful in graphics, but also maths."""
@@ -42,14 +43,16 @@ class Vector:
     def random3D(cls):
         return Vector(random.uniform(0, 1), random.uniform(0, 1), random.uniform(0, 1))
 
-    # @classmethod
-    # def normalize(cls, other):
-    #     return cls(other.x / other.mag, other.y / other.mag, other.z / other.mag)
+    @classmethod
+    def normalized(cls, other):
+        """Creates a new normalized vector"""
+        return cls(other.x / other.mag, other.y / other.mag, other.z / other.mag)
 
-    # def normalize(self):
-    #     self.x /= self.mag
-    #     self.y /= self.mag
-    #     self.z /= self.mag
+    def normalize(self):
+        """Normalizes the current vector and saves it"""
+        self.x /= self.mag
+        self.y /= self.mag
+        self.z /= self.mag
 
     def __str__(self):
         lst = [self.x, self.y] if self.z == 0 else [self.x, self.y, self.z]
@@ -488,17 +491,39 @@ class Vector:
         return math.acos(self.dot(other) / (self.mag * other.mag))
 
     def cross(self, other):
-        if self.z == 0:
-            raise ValueError("Your vector has to be 3D")
-        
-        
+        return Vector(self.y*other.z - self.z*other.y, self.z*other.x - self.x*other.z, self.x*other.y - self.y*other.x)
+
+    @classmethod
+    def rotated(cls, other, angle, type_="radians"):
+        vector = other.copy()
+        vector.rotate(angle, type_)
+        return vector
+
+    def rotate(self, angle, type_="radians"):
+        if type_ in ("radians", "degrees") and self.z == 0:
+            if type_ == "degrees":
+                angle = math.radians(angle)
+                print(angle)
+
+            angle_cos = math.cos(angle)
+            angle_sin = math.sin(angle)
+
+            self.x = angle_cos * self.x - angle_sin * self.y
+            self.y = angle_sin * self.x + angle_cos * self.y
+        else:
+            raise ValueError("The only types accepted are radians and degrees.")
+
+# This is where we add unit vectors
+UNIT = {
+    "i": Vector(1, 0, 0),
+    "j": Vector(0, 1, 0),
+    "k": Vector(0, 0, 1)
+}
+
 """
 TODO:
 
-cross() 	Calculate and return the cross product
-normalize() 	Normalize the vector to a length of 1
 limit() 	Limit the magnitude of the vector
 heading() 	Calculate the angle of rotation for this vector
-rotate() 	Rotate the vector by an angle (2D only)
 lerp() 	Linear interpolate the vector to another vector
 """

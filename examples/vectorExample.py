@@ -23,5 +23,12 @@ print("Magnitude set to 10 on vector 5", vec5)
 print("Vector 4 to list", vec4.toList())
 print("Vector 4 to dict", vec4.toDict())
 
+normVec = Vector.normalized(vec5)
+print("Normalized vector 5 is", normVec)
+rotaVec = Vector.rotated(vec4, math.pi/2)
+print("Rotated vector 4 by 90 degrees is", rotaVec)
+
 angleBetween45 = vec4.angleBetween(vec5)
 print("Angle between vectors 4 and 5 is", math.degrees(angleBetween45))
+cross45 = vec4.cross(vec5)
+print("Cross product of vectors 4 and 5 is", cross45)
