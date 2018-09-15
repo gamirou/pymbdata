@@ -30,17 +30,26 @@ class Vector:
 
     @property
     def mag(self):
+        """Returns the magnitude (length) of the vector"""
         return (self.x ** 2 + self.y ** 2 + self.z ** 2) ** 0.5
 
+    @property
+    def heading(self):
+        """Calculate the angle of rotation for this vector"""
+        return math.atan(self.y / self.x)
+
     def copy(self):
+        """Returns a coppied vector"""
         return Vector(self.x, self.y, self.z)
 
     @classmethod
     def random2D(cls):
+        """Creates a random 2D vector"""
         return Vector(random.uniform(0, 1), random.uniform(0, 1))
 
     @classmethod
     def random3D(cls):
+        """Creates a random 3D vector"""
         return Vector(random.uniform(0, 1), random.uniform(0, 1), random.uniform(0, 1))
 
     @classmethod
@@ -49,7 +58,7 @@ class Vector:
         return cls(other.x / other.mag, other.y / other.mag, other.z / other.mag)
 
     def normalize(self):
-        """Normalizes the current vector and saves it"""
+        """Normalize the vector to a length of 1 and saves it"""
         self.x /= self.mag
         self.y /= self.mag
         self.z /= self.mag
@@ -450,6 +459,7 @@ class Vector:
 
     @classmethod
     def fromAngle(cls, angle, type_="radians"):
+        """Make a new 2D unit vector from an angle"""
         if type_ == "degrees":
             angle = math.radians(angle)
         else:
@@ -459,15 +469,18 @@ class Vector:
 
     @staticmethod
     def dist(vec1, vec2):
+        """Calculate the distance between two points"""
         return ((vec1.x - vec2.x) ** 2 + (vec1.y - vec2.y) ** 2 + (vec1.z - vec2.z) ** 2) ** 0.5
 
     def setMag(self, new):
+        """Set the magnitude of the vector"""
         change = new / self.mag
         self.x *= change
         self.y *= change
         self.z *= change
 
     def toList(self):
+        """Return a representation of the vector as a list"""
         output = [self.x, self.y]
         if self.z != 0:
             output.append(self.z)
@@ -475,9 +488,11 @@ class Vector:
         return output
 
     def toTuple(self):
+        """Return a representation of the vector as a tuple"""
         return tuple(self.toList())
 
     def toDict(self):
+        """Return a representation of the vector as a dictionary"""
         output = {"x": self.x, "y": self.y}
         if self.z != 0:
             output["z"] = self.z
@@ -485,21 +500,26 @@ class Vector:
         return output
 
     def dot(self, other):
+        """Calculate the dot product of two vectors"""
         return (self.x * other.x) + (self.y * other.y)
 
     def angleBetween(self, other):
+        """Calculate and return the angle between two vectors"""
         return math.acos(self.dot(other) / (self.mag * other.mag))
 
     def cross(self, other):
+        """Calculate and return the cross product of two vectors"""
         return Vector(self.y*other.z - self.z*other.y, self.z*other.x - self.x*other.z, self.x*other.y - self.y*other.x)
 
     @classmethod
     def rotated(cls, other, angle, type_="radians"):
+        """Returns a copy of a rotated vector"""
         vector = other.copy()
         vector.rotate(angle, type_)
         return vector
 
     def rotate(self, angle, type_="radians"):
+        """Rotate the vector by an angle (2D only)"""
         if type_ in ("radians", "degrees") and self.z == 0:
             if type_ == "degrees":
                 angle = math.radians(angle)
@@ -513,15 +533,17 @@ class Vector:
         else:
             raise ValueError("The only types accepted are radians and degrees.")
 
-    @property
-    def heading(self):
-        return math.atan(self.y / self.x)
-
     def lerp(self, other, ratio):
+        """Linear interpolate the vector to another vector"""
         first_half = self.__mul__(1 - ratio)
         second_half = other.__mul__(ratio)
         return first_half.__mul__(second_half)
 
+    def limit(self, maxMag):
+        """Limit the magnitude of the vector"""
+        if self.mag > maxMag:
+            self.normalize()
+            self.setMag(maxMag)
 
 # This is where we add unit vectors
 UNIT = {
@@ -531,10 +553,6 @@ UNIT = {
 }
 
 """
-TODO:
-
-limit() 	Limit the magnitude of the vector
-
 TODO in future versions
 slerp() 	Spherical interpolate the vector to another vector
 nlerp() 	Normalized linear interpolate the vector to another vector

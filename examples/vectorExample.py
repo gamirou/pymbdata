@@ -36,3 +36,6 @@ cross45 = vec4.cross(vec5)
 print("Cross product of vectors 4 and 5 is", cross45)
 lerp45 = vec4.lerp(vec5, 0.5)
 print("Linear interpolation of v4 and 5 at 0.5 is", lerp45)
+
+vec5.limit(4)
+print("Vector 5 after being limited to 4", vec5)
