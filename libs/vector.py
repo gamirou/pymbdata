@@ -1,12 +1,29 @@
 import random
+import math
 
 class Vector:
     """An object that has three attributes, x, y and z coordinates. Useful in graphics, but also maths."""
 
-    def __init__(self, x, y, z=0):
-        self.x = x
-        self.y = y
-        self.z = z
+    def __init__(self, x, y=0, z=0):
+        if isinstance(x, (tuple, list)):
+            if len(x) >= 2 and len(x) < 4:
+                self.x = x[0]
+                self.y = x[1]
+                if len(x) == 3:
+                    self.z = x[2]
+            else:
+                raise AttributeError("Length of list has to be 2 or 3")
+        elif isinstance(x, dict):
+            self.x = x['x']
+            self.y = x['y']
+            if x['z'] is not None:
+                self.z = x['z']
+        elif isinstance(x, (int, float)) and isinstance(y, (int, float)):
+            self.x = x
+            self.y = y
+            self.z = z
+        else:
+            raise AttributeError("Your arguments are invalid")
 
     @property
     def mag(self):
@@ -14,7 +31,7 @@ class Vector:
 
     def copy(self):
         return Vector(self.x, self.y, self.z)
-    
+
     @classmethod
     def random2D(cls):
         return Vector(random.uniform(0, 1), random.uniform(0, 1))
@@ -64,7 +81,8 @@ class Vector:
             newY = self.y + other.y
             newZ = self.z + other.z
         else:
-            raise TypeError("Your input has to be a vector, a scalar, a list or a tuple.")
+            raise TypeError(
+                "Your input has to be a vector, a scalar, a list or a tuple.")
 
         return Vector(newX, newY, newZ)
 
@@ -95,10 +113,11 @@ class Vector:
             self.y += other.y
             self.z += other.z
         else:
-            raise TypeError("Your input has to be a vector, a scalar, a list or a tuple.")
+            raise TypeError(
+                "Your input has to be a vector, a scalar, a list or a tuple.")
 
         return self
-    
+
     def __sub__(self, other):
         newX, newY, newZ = 0, 0, 0
         if isinstance(other, int) or isinstance(other, float):
@@ -127,7 +146,8 @@ class Vector:
             newY = self.y - other.y
             newZ = self.z - other.z
         else:
-            raise TypeError("Your input has to be a vector, a scalar, a list or a tuple.")
+            raise TypeError(
+                "Your input has to be a vector, a scalar, a list or a tuple.")
 
         return Vector(newX, newY, newZ)
 
@@ -158,7 +178,8 @@ class Vector:
             self.y -= other.y
             self.z -= other.z
         else:
-            raise TypeError("Your input has to be a vector, a scalar, a list or a tuple.")
+            raise TypeError(
+                "Your input has to be a vector, a scalar, a list or a tuple.")
 
         return self
 
@@ -190,7 +211,8 @@ class Vector:
             newY = self.y * other.y
             newZ = self.z * other.z
         else:
-            raise TypeError("Your input has to be a vector, a scalar, a list or a tuple.")
+            raise TypeError(
+                "Your input has to be a vector, a scalar, a list or a tuple.")
 
         return Vector(newX, newY, newZ)
 
@@ -221,7 +243,8 @@ class Vector:
             self.y *= other.y
             self.z *= other.z
         else:
-            raise TypeError("Your input has to be a vector, a scalar, a list or a tuple.")
+            raise TypeError(
+                "Your input has to be a vector, a scalar, a list or a tuple.")
 
         return self
 
@@ -253,7 +276,8 @@ class Vector:
             newY = self.y / other.y
             newZ = self.z / other.z
         else:
-            raise TypeError("Your input has to be a vector, a scalar, a list or a tuple.")
+            raise TypeError(
+                "Your input has to be a vector, a scalar, a list or a tuple.")
 
         return Vector(newX, newY, newZ)
 
@@ -284,7 +308,8 @@ class Vector:
             self.y /= other.y
             self.z /= other.z
         else:
-            raise TypeError("Your input has to be a vector, a scalar, a list or a tuple.")
+            raise TypeError(
+                "Your input has to be a vector, a scalar, a list or a tuple.")
 
         return self
 
@@ -316,7 +341,8 @@ class Vector:
             newY = self.y // other.y
             newZ = self.z // other.z
         else:
-            raise TypeError("Your input has to be a vector, a scalar, a list or a tuple.")
+            raise TypeError(
+                "Your input has to be a vector, a scalar, a list or a tuple.")
 
         return Vector(newX, newY, newZ)
 
@@ -347,7 +373,8 @@ class Vector:
             self.y //= other.y
             self.z //= other.z
         else:
-            raise TypeError("Your input has to be a vector, a scalar, a list or a tuple.")
+            raise TypeError(
+                "Your input has to be a vector, a scalar, a list or a tuple.")
 
         return self
 
@@ -379,7 +406,8 @@ class Vector:
             newY = self.y ** other.y
             newZ = self.z ** other.z
         else:
-            raise TypeError("Your input has to be a vector, a scalar, a list or a tuple.")
+            raise TypeError(
+                "Your input has to be a vector, a scalar, a list or a tuple.")
 
         return Vector(newX, newY, newZ)
 
@@ -410,25 +438,60 @@ class Vector:
             self.y **= other.y
             self.z **= other.z
         else:
-            raise TypeError("Your input has to be a vector, a scalar, a list or a tuple.")
+            raise TypeError(
+                "Your input has to be a vector, a scalar, a list or a tuple.")
 
         return self
 
+    @classmethod
+    def fromAngle(cls, angle, type_="radians"):
+        if type_ == "degrees":
+            angle = math.radians(angle)
+        else:
+            raise TypeError("The only accepted types are degrees and radians")
+
+        return cls(math.cos(angle), math.sin(angle))
+
+    @staticmethod
+    def dist(vec1, vec2):
+        return ((vec1.x - vec2.x) ** 2 + (vec1.y - vec2.y) ** 2 + (vec1.z - vec2.z) ** 2) ** 0.5
+
+    def setMag(self, new):
+        change = new / self.mag
+        self.x *= change
+        self.y *= change
+        self.z *= change
+
+    def toList(self):
+        output = [self.x, self.y]
+        if self.z != 0:
+            output.append(self.z)
+
+        return output
+
+    def toTuple(self):
+        return tuple(self.toList())
+
+    def toDict(self):
+        output = {"x": self.x, "y": self.y}
+        if self.z != 0:
+            output["z"] = self.z
+
+        return output
+
+    def dot(self, other):
+        return (self.x * other.x) + (self.y * other.y)
+
+    def angleBetween(self, other):
+        return math.acos(self.dot(other) / (self.mag * other.mag))
+
 """
-normalize()
-fromAngle() 	Make a new 2D unit vector from an angle
-sub() 	Subtract x, y, and z components from a vector, one vector from another, or two independent vectors
-mult() 	Multiply a vector by a scalar
-div() 	Divide a vector by a scalar
-dist() 	Calculate the distance between two points
-dot() 	Calculate the dot product of two vectors
+TODO:
+
 cross() 	Calculate and return the cross product
 normalize() 	Normalize the vector to a length of 1
 limit() 	Limit the magnitude of the vector
-setMag() 	Set the magnitude of the vector
 heading() 	Calculate the angle of rotation for this vector
 rotate() 	Rotate the vector by an angle (2D only)
 lerp() 	Linear interpolate the vector to another vector
-angleBetween() 	Calculate and return the angle between two vectors
-array() 	Return a representation of the vector as a float array
 """
