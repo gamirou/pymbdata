@@ -1,6 +1,8 @@
 import random
 import math
 
+from exception import *
+
 class Vector:
     """An object that has three attributes, x, y and z coordinates. Useful in graphics, but also maths."""
 
@@ -485,6 +487,11 @@ class Vector:
     def angleBetween(self, other):
         return math.acos(self.dot(other) / (self.mag * other.mag))
 
+    def cross(self, other):
+        if self.z == 0:
+            raise ValueError("Your vector has to be 3D")
+        
+        
 """
 TODO:
 
