@@ -9,10 +9,10 @@ setuptools.setup(
     author="George Sima",
     description="A small example package",
     long_description=long_description,
-    long_description_content_type="text/markdown",
+    #long_description_content_type="text/markdown",
     url="https://github.com/gamirou/pymbdata",
     packages=setuptools.find_packages(),
-    install_required = [
+    install_requires = [
         "numpy",
     ],
     classifiers=[

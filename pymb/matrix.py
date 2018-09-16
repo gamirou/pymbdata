@@ -1,6 +1,5 @@
 import numpy as np
 
-
 class Matrix:
     """A matrix implementation based on numpy array"""
 

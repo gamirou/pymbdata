@@ -1,5 +1,5 @@
 import sys, random, math
-sys.path.insert(0, r'.\libs')
+sys.path.insert(0, r'.\pymb')
 from vector import *
 
 vec1 = Vector(2, 4)
