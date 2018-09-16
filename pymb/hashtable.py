@@ -42,7 +42,7 @@ class HashTable:
             current = current.next
 
         print("Item not found")
-        return False
+        return None
 
     def insert(self, dictionary):
         """Inserts a dictionary to the hash table"""
@@ -56,15 +56,8 @@ class HashTable:
 
         if linkedList != None:
             # If the item is present, remove it
-            if linkedList.find(key) != None:
-                current=linkedList.head
-
-                while current != None:
-                    if current.data[0] == key:
-                        linkedList.remove(current.data)
-                        return
-
-                    current=current.next
+            if linkedList.getH(key):
+                linkedList.removeByKey(key)
             else:
                 print("Your item does not exist")
 
@@ -96,7 +89,7 @@ class HashTable:
                     merged.table[i]=self.table[i].copy()
                     continue
 
-                merged.table[i]=self.table[i].merge(other.table[i])
+                merged.table[i]=self.table[i].merge(other.table[i], isHash=True)
 
         return merged
 
@@ -123,20 +116,6 @@ class HashTable:
                 lists.append(self.table[i])
 
         return lists
-
-    def find(self, key):
-        """Returns the value of based on the key"""
-        for i in range(HashTable.TABLE_SIZE):
-            if self.table[i] is None:
-                continue
-
-            if self.table[i].find(key) is None:
-                continue
-            else:
-                return self.table[i].find(key)
-
-        print("Your item is not in the list")
-
 
     #### Transforming into other data structures ####
 

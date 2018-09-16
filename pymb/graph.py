@@ -1,3 +1,10 @@
+from node import *
+from linkedlist import *
+from matrix import *
+
 class Graph:
-    """ I am going to work on this before release of 0.0.1"""
-    pass
+    """An object that represents a graph with nodes (vertices) and edges"""
+    
+    def __init__(self, *nodes):
+        self.adjacencyList = []
+        self.adjacencyMatrix = Matrix()

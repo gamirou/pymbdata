@@ -11,22 +11,35 @@ class LinkedList:
         """Returns true if list is empty"""
         return self.head == None
 
-    def find(self, key):
-        """Finds a value based on the key"""
+    def getH(self, key):
+        """Returns the value based on key (only hash tables)"""
         current = self.head
 
         # Iterates over the list
         while current is not None:
             if current.data[0] == key:
-                return current.data[1]
+                return True
 
             current = current.next
 
-        return None
+        return False
+
+    def find(self, value):
+        """Finds a value based on the value"""
+        current = self.head
+
+        # Iterates over the list
+        while current is not None:
+            if current.data == value:
+                return True
+
+            current = current.next
+
+        return False
 
     def insert(self, value):
         """Adds a node to the linked list in its corresponding place"""
-        if self.find(value) != None:
+        if self.find(value):
             print("Your value is already in the list! Use replace() instead!")
 
         # Checks if list is empty
@@ -91,7 +104,20 @@ class LinkedList:
         
         print("Your item is not present in the list")     
 
-    def merge(self, other):
+    def removeByKey(self, key):
+        """Removes a node by its key (only hash tables)"""
+        current=self.head
+
+        while current != None:
+            if current.data[0] == key:
+                linkedList.remove(current.data)
+                return
+
+            current=current.next
+        
+        raise KeyError("Value not present")
+
+    def merge(self, other, **kwargs):
         """Merges two linked lists together"""
         merged = LinkedList()
         list1 = self.copy()
@@ -108,21 +134,38 @@ class LinkedList:
                 list1.remove(list1.head.data)
                 continue
             
-            # Otherwise checks if the keys are the same
-            if list1.head.data[0] == list2.head.data[0]:
-                # Overwrites second list's value because it is the argument, not the instance
-                merged.insert(list1.head.data)
-
-                list1.remove(list1.head.data)
-                list2.remove(list2.head.data)
-            else:
-                # Minimum value inserted
-                if list1.head.data < list2.head.data:
+            if kwargs["isHash"]:
+                # Otherwise checks if the keys are the same
+                if list1.head.data[0] == list2.head.data[0]:
+                    # Overwrites second list's value because it is the argument, not the instance
                     merged.insert(list1.head.data)
+
                     list1.remove(list1.head.data)
-                else:
-                    merged.insert(list2.head.data)
                     list2.remove(list2.head.data)
+                else:
+                    # Minimum value inserted
+                    if list1.head.data < list2.head.data:
+                        merged.insert(list1.head.data)
+                        list1.remove(list1.head.data)
+                    else:
+                        merged.insert(list2.head.data)
+                        list2.remove(list2.head.data)
+            else:
+                # Otherwise checks if the keys are the same
+                if list1.head.data == list2.head.data:
+                    # Overwrites second list's value because it is the argument, not the instance
+                    merged.insert(list1.head.data)
+
+                    list1.remove(list1.head.data)
+                    list2.remove(list2.head.data)
+                else:
+                    # Minimum value inserted
+                    if list1.head.data < list2.head.data:
+                        merged.insert(list1.head.data)
+                        list1.remove(list1.head.data)
+                    else:
+                        merged.insert(list2.head.data)
+                        list2.remove(list2.head.data)
 
         return merged
 
