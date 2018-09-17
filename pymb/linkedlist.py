@@ -1,29 +1,16 @@
 from node import Node
 
-class LinkedList:
-    """An object that behaves like a linked list"""
 
-    def __init__(self, head = None, tail = None):
+class BaseLinkedList:
+    """There will be two types of linked lists, sorted and unsorted"""
+    
+    def __init__(self, head=None, tail=None):
         self.head = head
         self.tail = tail
-
-    def is_empty(self):
-        """Returns true if list is empty"""
-        return self.head == None
-
-    def getH(self, key):
-        """Returns the value based on key (only hash tables)"""
-        current = self.head
-
-        # Iterates over the list
-        while current is not None:
-            if current.data[0] == key:
-                return True
-
-            current = current.next
-
-        return False
-
+    
+    def isEmpty(self):
+        return self.head == None   
+    
     def find(self, value):
         """Finds a value based on the value"""
         current = self.head
@@ -35,50 +22,13 @@ class LinkedList:
 
             current = current.next
 
-        return False
-
-    def insert(self, value):
-        """Adds a node to the linked list in its corresponding place"""
-        if self.find(value):
-            print("Your value is already in the list! Use replace() instead!")
-
-        # Checks if list is empty
-        current = self.head
-        if current is None:
-            self.head = self.tail = Node(data=value, next=None, prev=None)
-            return
-    
-        # If the value is smaller than the head
-        if current.data > value:
-            # If there is a single item
-            if self.tail == self.head:
-                self.head = Node(data = value, prev = None, next = current)
-                self.tail = Node(data = current.data, prev = self.head, next = None)
-                current = self.tail
-            else:
-                current = self.head
-                self.head = Node(data = value, prev = None, next = current)
-            return
-
-        # If it is in the middle or at the end
-        while current.next is not None:
-            if current.next.data > value:
-                break
-            current = current.next
-
-        # Found the correct place
-        newNode = Node(data=value, prev=current, next=current.next)
-        current.next = newNode
-        
-        # If it is the tail, don't change previous attribute
-        if current.next.next != None:
-            current.next.next.prev = newNode
+        return False 
 
     def remove(self, value):
         """Removes a value if it is present by the key"""
         current = self.head
 
-        while current != None:
+        while current is not None:
             # If key is found
             if current.data == value:
                 # If it is not the head
@@ -101,23 +51,35 @@ class LinkedList:
                 
             current = current.next
             
+        raise KeyError("Your item is not present in the list")
         
-        print("Your item is not present in the list")     
+    def count(self):
+        """Returns the number of elements"""
+        # It could be replaced with __len__ as it is more pythonic, but I want to meet the requirements
+        length = 0
+        current = self.head
 
-    def removeByKey(self, key):
-        """Removes a node by its key (only hash tables)"""
-        current=self.head
+        while current is not None:
+            length += 1
+            current = current.next
 
-        while current != None:
-            if current.data[0] == key:
-                linkedList.remove(current.data)
-                return
+        return length
 
-            current=current.next
-        
-        raise KeyError("Value not present")
+class LinkedList(BaseLinkedList):
+    """An object that behaves like a linked list. It is sorted, unlike normal linked lists"""
 
-    def merge(self, other, **kwargs):
+    def __init__(self, head = None, tail = None):
+        super().__init__(head, tail)
+
+    def append(self, value):
+        """Adds a node to the linked list at the end"""
+        self.value
+
+    def prepend(self, value):
+        """Adds a node to the linked list at the start"""
+        pass
+
+    def merge(self, other):
         """Merges two linked lists together"""
         merged = LinkedList()
         list1 = self.copy()
@@ -133,39 +95,22 @@ class LinkedList:
                 merged.insert(list1.head.data)
                 list1.remove(list1.head.data)
                 continue
-            
-            if kwargs["isHash"]:
-                # Otherwise checks if the keys are the same
-                if list1.head.data[0] == list2.head.data[0]:
-                    # Overwrites second list's value because it is the argument, not the instance
-                    merged.insert(list1.head.data)
 
-                    list1.remove(list1.head.data)
-                    list2.remove(list2.head.data)
-                else:
-                    # Minimum value inserted
-                    if list1.head.data < list2.head.data:
-                        merged.insert(list1.head.data)
-                        list1.remove(list1.head.data)
-                    else:
-                        merged.insert(list2.head.data)
-                        list2.remove(list2.head.data)
+            # Otherwise checks if the keys are the same
+            if list1.head.data == list2.head.data:
+                # Overwrites second list's value because it is the argument, not the instance
+                merged.insert(list1.head.data)
+
+                list1.remove(list1.head.data)
+                list2.remove(list2.head.data)
             else:
-                # Otherwise checks if the keys are the same
-                if list1.head.data == list2.head.data:
-                    # Overwrites second list's value because it is the argument, not the instance
+                # Minimum value inserted
+                if list1.head.data < list2.head.data:
                     merged.insert(list1.head.data)
-
                     list1.remove(list1.head.data)
-                    list2.remove(list2.head.data)
                 else:
-                    # Minimum value inserted
-                    if list1.head.data < list2.head.data:
-                        merged.insert(list1.head.data)
-                        list1.remove(list1.head.data)
-                    else:
-                        merged.insert(list2.head.data)
-                        list2.remove(list2.head.data)
+                    merged.insert(list2.head.data)
+                    list2.remove(list2.head.data)
 
         return merged
 
@@ -183,18 +128,6 @@ class LinkedList:
             resCurrent = resCurrent.next
 
         return result
-
-    def count(self):
-        """Returns the number of elements"""
-        # It could be replaced with __len__ as it is more pythonic, but I want to meet the requirements
-        length = 0
-        current = self.head
-
-        while current is not None:
-            length += 1
-            current = current.next
-
-        return length
 
     def __str__(self):
         """Returns a string representation to visualize the linked list"""

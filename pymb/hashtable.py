@@ -1,4 +1,4 @@
-from linkedlist import LinkedList
+from sortedlinkedlist import SortedLinkedList
 from stack import Stack
 from queue import Queue
 from bst import BST
@@ -28,7 +28,7 @@ class HashTable:
 
         # If there is no linked list at the index, create one
         if self.table[index] == None:
-            self.table[index]=LinkedList()
+            self.table[index]=SortedLinkedList()
 
         self.table[index].insert((key, value))
 
