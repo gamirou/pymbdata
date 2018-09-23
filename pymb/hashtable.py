@@ -1,7 +1,7 @@
-from sortedlinkedlist import SortedLinkedList
-from stack import Stack
-from queue import Queue
-from bst import BST
+from .sortedlinkedlist import SortedLinkedList
+from .stack import Stack
+from .queue import Queue
+from .bst import BST
 
 class HashTable:
     """Object that behaves like a hash table (almost! it is mutant >:O)"""

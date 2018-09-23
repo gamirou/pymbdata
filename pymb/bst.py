@@ -1,4 +1,4 @@
-from node import Node
+from .basetypes.node import Node
 
 class BST:
     """A simple class that represents a binary search tree"""

@@ -1,5 +1,5 @@
-from node import Node
-from linkedlist import BaseLinkedList
+from .basetypes.node import Node
+from .basetypes.abstractlist import BaseLinkedList
 
 
 class SortedLinkedList(BaseLinkedList):
@@ -21,10 +21,14 @@ class SortedLinkedList(BaseLinkedList):
 
         return False
 
+    def replace(self, old, new):
+        """Replaces a node with a new one"""
+        pass
+
     def insert(self, value):
         """Adds a node to the linked list in its corresponding place"""
         if self.find(value):
-            print("Your value is already in the list! Use replace() instead!")
+            raise ValueError("Your value is already in the list! Use replace() instead!")
 
         # Checks if list is empty
         current = self.head

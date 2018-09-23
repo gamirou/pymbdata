@@ -1,7 +1,7 @@
 import random
 import math
 
-from matrix import *
+from .matrix import Matrix
 
 
 class Vector:
