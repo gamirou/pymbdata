@@ -1,8 +1,6 @@
-import sys
-sys.path.insert(0, r'.\pymb')
-from hashtable import *
+from pymb import hashtable
 
-hash1 = HashTable()
+hash1 = hashtable()
 hash1["Boi"] = 90
 print(hash1["Boi"])
 
@@ -13,7 +11,7 @@ hash1["Hdorge"] = 15
 hash1["Love"] = 25
 hash1["Hate"] = 16
 
-hash2 = HashTable()
+hash2 = hashtable()
 hash2["Kovf"] = 32
 hash2["Ibte"] = 56
 
@@ -25,7 +23,7 @@ dictionaryHash = {
     "Job": "Software Developer"
 }
 
-hash4 = HashTable(dictionaryHash)
+hash4 = hashtable(dictionaryHash)
 
 print("Hash 1: ")
 print(hash1)

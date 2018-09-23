@@ -1,6 +1,4 @@
-import sys, random, math
-sys.path.insert(0, r'.\pymb')
-from vector import *
+from pymb import Vector
 
 vec1 = Vector(2, 4)
 vec2 = Vector.random2D()
