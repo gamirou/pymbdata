@@ -19,6 +19,8 @@ class Matrix:
             else:
                 raise ValueError("Rows and columns need to be integers.")
 
+        self.__setvalcounter = 0
+
     @property
     def determinant(self):
         if self.cols != self.rows:
@@ -38,6 +40,19 @@ class Matrix:
             return self.items[0][0] * dets["a"] - self.items[0][1] * self.items[0][2] * dets["b"] + dets["c"]
         else:
             return "Not implemented yet"
+
+    def __setitem__(self, key, val):
+        """It only works like this m[0, 0] and not this m[0][0]"""
+        (row, col) = key
+        self.items[row, col] = val
+
+    def __getitem__(self, value):
+        """It works both ways, m[0][0] and m[0, 0]"""
+        if isinstance(value, tuple):
+            return self.items[value[0]][value[1]]
+        else:
+            # Less efficient
+            return self.items[value]
 
     def __str__(self):
         return str(self.items)
