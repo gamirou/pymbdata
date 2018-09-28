@@ -15,7 +15,11 @@ class LinkedList(BaseLinkedList):
     def append(self, value):
         """Adds a node to the linked list at the end"""
         if self.head is None:
-            self.head = self.tail = Node(data=value)
+            self.head = self.tail = Node(data=value, next=None, prev=None)
+            return
+        
+        self.tail.next = Node(data=value, next=None, prev=self.tail)
+        self.tail = self.tail.next
 
     def merge(self, other):
         """Merges two linked lists together"""

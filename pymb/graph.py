@@ -1,5 +1,9 @@
 from .linkedlist import LinkedList
+from .basetypes.node import Node
 from .matrix import Matrix
+
+# https://en.wikipedia.org/wiki/Graph_%28abstract_data_type%29
+# Need to make each vertex a node
 
 class Graph:
     """An object that represents a graph with nodes (vertices) and edges"""
@@ -10,7 +14,7 @@ class Graph:
         self.edges = {}
         self._TYPE = type_
 
-        self.adjacencyList = LinkedList()
+        self.adjacencyList = [None] * self.size
         self.adjacencyMatrix = Matrix(size, size)
 
     @property
@@ -38,7 +42,7 @@ class Graph:
             raise ValueError("Your vertex key needs to be an integer.")
 
         if kind == "vertex":
-            self.vertices[key] = value
+            self.vertices[key] = Node(key=key, data=value, neighbours=[])
         elif kind == "edge":
             if isinstance(value, tuple):
                 if len(value) == 2:
@@ -65,7 +69,11 @@ class Graph:
             if self._TYPE == "UNDIRECTED":
                 self.adjacencyMatrix[destination, origin] = distance
 
-            self.edges[key] = {"from": origin, "to": destination, "distance": distance}
+            if self.adjacencyList[origin] is None:
+                self.adjacencyList[origin] = LinkedList()
+            
+            self.adjacencyList[origin].append(destination)
+            self.edges[key] = Node(origin=origin, destination=destination, distance=distance)
 
     def __getitem__(self, args):
         kind, key = args
@@ -73,4 +81,13 @@ class Graph:
             raise ValueError("The correct format is graph['edge' or 'vertex', id]")
 
         return self.vertices[key] if kind == "vertex" else self.edges[key]
+    
+    def printList(self):
+        string = ""
+        for i in range(self.size):
+            string += "Adjacency list for vertex {} => {}\n".format(i, self.adjacencyList[i])
         
+        return string[:-1]
+
+    def printMatrix(self):
+        return str(self.adjacencyMatrix)
