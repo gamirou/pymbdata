@@ -8,7 +8,7 @@ from .matrix import Matrix
 class Graph:
     """An object that represents a graph with nodes (vertices) and edges"""
     
-    def __init__(self, size):
+    def __init__(self, type_, size):
         self.size = size
         self.vertices = []
 
@@ -16,9 +16,14 @@ class Graph:
             self.vertices.append(Node(key=i, data=None, neighbours=[]))
 
         self.edges = {}
+        self._TYPE = type_
 
         self.adjacencyList = [None] * self.size
         self.adjacencyMatrix = Matrix(size, size)
+
+    @property
+    def TYPE():
+        return self._TYPE
 
     def __len__(self):
         return size
@@ -65,7 +70,7 @@ class Graph:
 
             self.adjacencyMatrix[origin, destination] = distance
                 
-            if self.adjacencyMatrix.isSymmetric():
+            if self._TYPE == "UNDIRECTED":
                 self.adjacencyMatrix[destination, origin] = distance
 
             if self.adjacencyList[origin] is None:
@@ -99,7 +104,12 @@ class Graph:
                 raise ValueError("This edge is not existent")
             
             edge = self.edges[key]
+
+            self.adjacencyMatrix[edge.origin.key][edge.destination.key] = 0
             
+            if self._TYPE == "UNDIRECTED":
+                self.adjacencyMatrix[edge.destination.key][edge.origin.key] = 0
+
             # TODO: Delete references inside neighbours lists
             
             for i in range(len(edge.origin.neighbours)):
@@ -125,6 +135,10 @@ class Graph:
                 del self.edges[neighbour_key["edge_key"]]
                 
                 neighbour = self.vertices[neighbour_key["vertex_key"]]
+                self.adjacencyMatrix[key][neighbour.key] = 0
+
+                if self._TYPE == "UNDIRECTED":
+                    self.adjacencyMatrix[neighbour.key][key] = 0
 
                 for i in range(len(neighbour.neighbours)):
                     if neighbour.neighbours[i]["vertex_key"] == key:
@@ -136,6 +150,16 @@ class Graph:
 
             if self.adjacencyList[key] is not None:
                 self.adjacencyList[key].clear()
+
+    def adjacent(self, origin_key, destination_key):
+        """Returns True if there is an edge between origin and destination"""
+        neighbours = self.vertices[origin_key].neighbours
+
+        for neighbour in neighbours:
+            if neighbours["vertex_key"] == destination_key:
+                return True
+
+        return False
 
     def printList(self):
         string = ""
