@@ -10,7 +10,7 @@ print("Adding with tuple", vec1)
 vec2 *= (8, 7)
 print("Multypling increment by list", vec2) 
 
-vec3 = Vector.fromAngle(140, "degrees")
+vec3 = Vector.from_angle(140, "degrees")
 print("Unit vector at 140 degrees", vec3)
 
 vec4 = Vector(3, 3)

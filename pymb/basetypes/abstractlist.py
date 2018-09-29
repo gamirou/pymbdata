@@ -8,7 +8,11 @@ class BaseLinkedList:
         self.head = head
         self.tail = tail
     
-    def isEmpty(self):
+    def clear(self):
+        self.head = Node(data=None, next=None, prev=None)
+        self.tail = self.head.copy()
+
+    def is_empty(self):
         return self.head == None   
     
     def find(self, value):

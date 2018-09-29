@@ -8,18 +8,17 @@ from .matrix import Matrix
 class Graph:
     """An object that represents a graph with nodes (vertices) and edges"""
     
-    def __init__(self, type_, size):
+    def __init__(self, size):
         self.size = size
-        self.vertices = {}
+        self.vertices = []
+
+        for i in range(self.size):
+            self.vertices.append(Node(key=i, data=None, neighbours=[]))
+
         self.edges = {}
-        self._TYPE = type_
 
         self.adjacencyList = [None] * self.size
         self.adjacencyMatrix = Matrix(size, size)
-
-    @property
-    def TYPE():
-        return self._TYPE
 
     def __len__(self):
         return size
@@ -42,7 +41,7 @@ class Graph:
             raise ValueError("Your vertex key needs to be an integer.")
 
         if kind == "vertex":
-            self.vertices[key] = Node(key=key, data=value, neighbours=[])
+            self.vertices[key].data = value
         elif kind == "edge":
             if isinstance(value, tuple):
                 if len(value) == 2:
@@ -66,22 +65,78 @@ class Graph:
 
             self.adjacencyMatrix[origin, destination] = distance
                 
-            if self._TYPE == "UNDIRECTED":
+            if self.adjacencyMatrix.isSymmetric():
                 self.adjacencyMatrix[destination, origin] = distance
 
             if self.adjacencyList[origin] is None:
                 self.adjacencyList[origin] = LinkedList()
             
             self.adjacencyList[origin].append(destination)
-            self.edges[key] = Node(origin=origin, destination=destination, distance=distance)
+
+            # It is only storing the key to reduce memory waste
+            # Neighbours -> {edge_key: edgekey, vertex_key: vertexkey}
+            self.vertices[origin].neighbours.append({"edge_key": key, "vertex_key": destination})
+            self.vertices[destination].neighbours.append({"edge_key": key, "vertex_key": origin})
+
+            self.edges[key] = Node(key=key, origin=origin, destination=destination, distance=distance)
 
     def __getitem__(self, args):
+        """Returns the whole instance of a node, not just the value"""
         kind, key = args
         if kind not in ("edge", "vertex") and not isinstance(key):
             raise ValueError("The correct format is graph['edge' or 'vertex', id]")
 
         return self.vertices[key] if kind == "vertex" else self.edges[key]
-    
+
+    def __delitem__(self, args):
+        """Deletes a node or an edge"""
+        kind, key = args
+        if kind not in ("edge", "vertex") and not isinstance(key, (str, int, float)):
+            raise ValueError("The correct format is graph['edge' or 'vertex', id]")
+
+        if kind == "edge":
+            if key not in self.edges.keys():
+                raise ValueError("This edge is not existent")
+            
+            edge = self.edges[key]
+            
+            # TODO: Delete references inside neighbours lists
+            
+            for i in range(len(edge.origin.neighbours)):
+                if edge.origin.neighbours[i]["edge_key"] == key:
+                    del edge.origin.neighbours[i]
+                    break
+            
+            for i in range(len(edge.destination.neighbours)):
+                if edge.destination.neighbours[i]["edge_key"] == key:
+                    del edge.destination.neighbours[i]
+                    break
+
+            del self.edges[key]
+
+        elif kind == "vertex":
+            vertex = self.vertices[key]
+
+            if vertex.data is None:
+                raise ValueError("This vertex is not existent")
+
+            # Deleting its reference inside neighbours
+            for neighbour_key in vertex.neighbours:
+                del self.edges[neighbour_key["edge_key"]]
+                
+                neighbour = self.vertices[neighbour_key["vertex_key"]]
+
+                for i in range(len(neighbour.neighbours)):
+                    if neighbour.neighbours[i]["vertex_key"] == key:
+                        del neighbour.neighbours[i]
+                        break
+
+            self.vertices[key].data = None
+            self.vertices[key].neighbours = []
+
+            if self.adjacencyList[key] is not None:
+                self.adjacencyList[key].clear()
+
     def printList(self):
         string = ""
         for i in range(self.size):

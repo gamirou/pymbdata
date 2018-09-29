@@ -61,3 +61,31 @@ class Matrix:
         matrix = Matrix(self.rows, self.cols)
         matrix.items = self.items.copy()
         return matrix
+
+    def transpose(self):
+        """Returns a new transposed matrix"""
+        if self.rows != self.cols:
+            raise ValueError("Your matrix has to have the same number of rows and columns.")
+        
+        transposed = Matrix(self.rows, self.cols)
+        for i in range(self.rows): 
+            for j in range(self.cols): 
+                transposed.items[i][j] = self.items[j][i]
+
+        return transposed
+
+    def transposed(self):
+        """Transposes the current matrix"""
+        self = self.transpose()
+
+    def isSymmetric(self):
+        if self.rows != self.cols:
+            raise ValueError("Your matrix has to have the same number of rows and columns.")
+        
+        transposed = self.transpose()
+        for i in range(self.rows): 
+            for j in range(self.cols): 
+                if transposed.items[i][j] != self.items[i][j]:
+                    return False
+
+        return True
