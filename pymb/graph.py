@@ -2,11 +2,20 @@ from .linkedlist import LinkedList
 from .basetypes.node import Node
 from .matrix import Matrix
 
-# https://en.wikipedia.org/wiki/Graph_%28abstract_data_type%29
-# Need to make each vertex a node
 
 class Graph:
-    """An object that represents a graph with nodes (vertices) and edges"""
+    """An object that represents a graph with nodes (vertices) and edges
+    
+    * To insert a node to a graph do:  graph['vertex', key] = data or 
+                                       graph['edge', key] = (from, to, distance=optional)
+                                       graph['edge', key] = {"from":from, "to":to, "distance":distance},
+    * To return a node do: graph['vertex', key] or graph['edge', key],
+    * To remove a node do: del graph['vertex', key] or del graph['edge', key],
+    * To get all of the vertices, use graph.vertices (list),
+    * To get all of the edges, use graph.edges (dictionary),
+    * To get the neighbours of a vertex, use graph['vertex', key].neighbours (list of dictionaries with 
+    keys: "edge_key" and "vertex_key"),
+    """
     
     def __init__(self, type_, size):
         self.size = size
@@ -26,7 +35,7 @@ class Graph:
         return self._TYPE
 
     def __len__(self):
-        return size
+        return self.size
 
     def __setitem__(self, inputs, value):
         """Set an edge or a vertex. 
@@ -36,6 +45,7 @@ class Graph:
                                   graph['edge', key] = {"from":from, "to":to, "distance":distance}"""
         kind, key = inputs
 
+        # Checks if the input is right
         if kind not in ("edge", "vertex") and key is not None:
             raise ValueError("You need to insert an edge or a vertex.")
 
@@ -46,8 +56,10 @@ class Graph:
             raise ValueError("Your vertex key needs to be an integer.")
 
         if kind == "vertex":
+            # Insert a vertex
             self.vertices[key].data = value
         elif kind == "edge":
+            # First checks for the value arguments
             if isinstance(value, tuple):
                 if len(value) == 2:
                     origin, destination = value
@@ -162,6 +174,7 @@ class Graph:
         return False
 
     def printList(self):
+        """Returns the adjacency list of the graph"""
         string = ""
         for i in range(self.size):
             string += "Adjacency list for vertex {} => {}\n".format(i, self.adjacencyList[i])
@@ -169,4 +182,5 @@ class Graph:
         return string[:-1]
 
     def printMatrix(self):
+        """Returns the adjacency matrix of the graph"""
         return str(self.adjacencyMatrix)

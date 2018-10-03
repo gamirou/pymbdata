@@ -10,7 +10,8 @@ class LinkedList(BaseLinkedList):
 
     def prepend(self, value):
         """Adds a node to the linked list at the start"""
-        pass
+        self.head.prev = Node(data=value, next=self.head, prev=None)
+        self.head = self.head.prev
 
     def append(self, value):
         """Adds a node to the linked list at the end"""

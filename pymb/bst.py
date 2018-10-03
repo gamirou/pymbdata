@@ -9,6 +9,7 @@ class BST:
         self.dataType = dataType
 
     def insert(self, value):
+        """Inserts a value to a binary search tree"""
         if not isinstance(value, self.dataType):
             print("Value inserted is not the accepted data type. it should be {}".format(self.dataType))
             return
@@ -21,6 +22,7 @@ class BST:
         self.size += 1
 
     def _insert(self, value, node):
+        """Recursive function that inserts a node to a binary search tree"""
         if node.data < value:
             if node.right is None:
                 node.right = Node(data=value, parent=node, left=None, right=None)

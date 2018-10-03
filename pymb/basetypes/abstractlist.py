@@ -68,3 +68,15 @@ class BaseLinkedList:
             current = current.next
 
         return length
+
+    def replace(self, old, new):
+        """Replaces a node with a new one"""
+        current=self.head
+
+        while current is not None:
+            if current.data == old:
+                current.data = new
+            
+            current=current.next
+
+        raise ValueError("{} is not present".format(old))

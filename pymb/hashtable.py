@@ -4,7 +4,16 @@ from .queue import Queue
 from .bst import BST
 
 class HashTable:
-    """Object that behaves like a hash table (almost! it is mutant >:O)"""
+    """Object that behaves like a hash table (almost! it is mutant >:O)
+    
+    * To insert a value, use hash[key] = value,
+    * To get a value, use hash[key],
+    * To delete a value, use del hash[key],
+    * To use the hash function, use hash.fnHash(val) or pymb.hashtable.fnHash(val) (TODO: needs refactoring),
+    * To transform into a bst, stack or queue, use hash.to"DATATYPE"(),
+    * To merge two hash tables, use hash.merge(other),
+    * To get the length of a hash table, use hash.count
+    """
     TABLE_SIZE=32
 
     def __init__(self, dictionary=None):
@@ -13,7 +22,8 @@ class HashTable:
         if isinstance(dictionary, dict):
             self.insert(dictionary)
 
-    def fnHash(self, key):
+    @classmethod
+    def fnHash(cls, key):
         """Returns a hash through a simple hashing function"""
         hash=0
         for letter in key:
@@ -41,35 +51,27 @@ class HashTable:
                 return current.data[1]
             current = current.next
 
-        print("Item not found")
-        return None
+        raise ValueError("Item not found")
+    
+    def __delitem__(self, key):
+        """Removes a value from the hash table"""
+        index = self.fnHash(key)
+        self.table[index].removeByKey(key)
 
-    def insert(self, dictionary):
+    def insertDict(self, dictionary):
         """Inserts a dictionary to the hash table"""
         for key in dictionary:
             self[key] = dictionary[key]
 
-    def remove(self, key):
-        """Removes a value from the hash table"""
-        index=self.fnHash(key)
-        linkedList=self.table[index]
-
-        if linkedList != None:
-            # If the item is present, remove it
-            if linkedList.getH(key):
-                linkedList.removeByKey(key)
-            else:
-                print("Your item does not exist")
-
     def __str__(self):
         """Returns a string representation of the mutant hash table to visualize it"""
-        sList=""
+        string=""
         for i in range(HashTable.TABLE_SIZE):
             # Ternary operator -> empty linked lists are left out
-            sList += "{} ==> {}\n".format(i,
+            string += "{} ==> {}\n".format(i,
                                           self.table[i]) if self.table[i] != None else ""
 
-        return sList
+        return string[:-1]
 
     def merge(self, other):
         """Merge two hash tables"""
@@ -93,6 +95,7 @@ class HashTable:
 
         return merged
 
+    @property
     def count(self):
         """Returns the number of elements inside the hash table"""
         length=0
@@ -104,18 +107,6 @@ class HashTable:
             length += self.table[i].count()
 
         return length
-
-    def getList(self):
-        """Returns the lists with more than one key in a LIST"""
-        lists=[]
-        for i in range(HashTable.TABLE_SIZE):
-            if self.table[i] is None:
-                continue
-
-            if self.table[i].count() > 1:
-                lists.append(self.table[i])
-
-        return lists
 
     #### Transforming into other data structures ####
 

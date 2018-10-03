@@ -21,10 +21,6 @@ class SortedLinkedList(BaseLinkedList):
 
         return False
 
-    def replace(self, old, new):
-        """Replaces a node with a new one"""
-        pass
-
     def insert(self, value):
         """Adds a node to the linked list in its corresponding place"""
         if self.find(value):
@@ -68,7 +64,7 @@ class SortedLinkedList(BaseLinkedList):
 
         while current != None:
             if current.data[0] == key:
-                linkedList.remove(current.data)
+                self.remove(current.data)
                 return
 
             current=current.next

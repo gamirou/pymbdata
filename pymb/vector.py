@@ -8,6 +8,16 @@ class Vector:
     """An object that has three attributes, x, y and z coordinates. Useful in graphics, but also maths."""
 
     def __init__(self, x, y=0, z=0):
+        """Initializes an vector
+
+        Args:
+            x (tuple, list, dict, int, float) : X-coordinate, or a tuple, list or a dictionary representation
+            y (int, float, optional)          : Y-coordinate, or None if x is not given as a number
+            z (int, float, optional)          : Z-coordinate, or None if x is not given as a number
+
+        Returns:
+            None
+        """
         if isinstance(x, (tuple, list)):
             if len(x) >= 2 and len(x) < 4:
                 self.x = x[0]
@@ -64,17 +74,26 @@ class Vector:
         self.z /= self.mag
 
     def __str__(self):
+        """Returns the string representation of a vector"""
         lst = [self.x, self.y] if self.z == 0 else [self.x, self.y, self.z]
         return str(tuple(lst))
 
     def __add__(self, other):
+        """Adds two vectors together
+
+        Args:
+            other (int, float, tuple, list, Vector) : The other vector
+
+        Returns:
+            Vector - Vector after operation is done 
+        """
         newX, newY, newZ = 0, 0, 0
-        if isinstance(other, int) or isinstance(other, float):
+        if isinstance(other, (int,float)):
             newX = self.x + other
             newY = self.y + other
             if self.z != 0:
                 newZ = self.z + other
-        elif isinstance(other, tuple) or isinstance(other, list):
+        elif isinstance(other, (tuple, list)):
             # If 2D vector
             if self.z == 0:
                 if len(other) == 2:
@@ -101,6 +120,14 @@ class Vector:
         return Vector(newX, newY, newZ)
 
     def __iadd__(self, other):
+        """Incrementing addition of two vectors
+
+        Args:
+            other (int, float, tuple, list, Vector) : The other vector
+
+        Returns:
+            None - it changes the attributes of self
+        """
         if isinstance(other, int) or isinstance(other, float):
             self.x += other
             self.y += other
@@ -133,6 +160,14 @@ class Vector:
         return self
 
     def __sub__(self, other):
+        """Substracts two vectors together
+
+        Args:
+            other (int, float, tuple, list, Vector) : The other vector
+
+        Returns:
+            Vector - Vector after operation is done 
+        """
         newX, newY, newZ = 0, 0, 0
         if isinstance(other, int) or isinstance(other, float):
             newX = self.x - other
@@ -198,6 +233,14 @@ class Vector:
         return self
 
     def __mul__(self, other):
+        """Multiplies two vectors together
+
+        Args:
+            other (int, float, tuple, list, Vector) : The other vector
+
+        Returns:
+            Vector - Vector after operation is done 
+        """
         newX, newY, newZ = 0, 0, 0
         if isinstance(other, int) or isinstance(other, float):
             newX = self.x * other
