@@ -8,7 +8,7 @@ class SortedLinkedList(BaseLinkedList):
     def __init__(self, head = None, tail = None):
         super().__init__(head, tail)
 
-    def getH(self, key):
+    def getForHash(self, key):
         """Returns the value based on key (only hash tables)"""
         current = self.head
 
@@ -123,7 +123,6 @@ class SortedLinkedList(BaseLinkedList):
 
         return merged
 
-
     def copy(self):
         """Returns a copy of itself"""
         result = SortedLinkedList(self.head, self.tail)
@@ -141,11 +140,11 @@ class SortedLinkedList(BaseLinkedList):
     def __str__(self):
         """Returns a string representation to visualize the linked list"""
         linkedNode = self.head
-        sList = ""
+        string = ""
 
         while linkedNode != None:
-            sList += "{} => ".format(linkedNode.data)
+            string += "{} => ".format(linkedNode.data)
             linkedNode = linkedNode.next
         
         # sList[:-4] so the last arrow is removed
-        return (sList[:-4] if sList != "" else "The linked list is empty")
+        return (string[:-4] if sList != "" else "The sorted linked list is empty")

@@ -1,15 +1,21 @@
 from .basetypes.node import Node
 from .basetypes.abstractlist import BaseLinkedList
 
+# Will use for future functionality
+# https://www.geeksforgeeks.org/data-structures/linked-list/#doublyLinkedList
 
 class LinkedList(BaseLinkedList):
-    """An object that behaves like a linked list. It is sorted, unlike normal linked lists"""
+    """An object that behaves like a linked list"""
 
     def __init__(self, head = None, tail = None):
         super().__init__(head, tail)
 
     def prepend(self, value):
         """Adds a node to the linked list at the start"""
+        if self.head is None:
+            self.head = self.tail = Node(data=value, next=None, prev=None)
+            return
+
         self.head.prev = Node(data=value, next=self.head, prev=None)
         self.head = self.head.prev
 
@@ -25,38 +31,21 @@ class LinkedList(BaseLinkedList):
     def merge(self, other):
         """Merges two linked lists together"""
         merged = LinkedList()
-        list1 = self.copy()
-        list2 = other.copy()
+        current = self.head
 
-        while list1.head != None or list2.head != None:
-            # If one list is empty, insert the remaining items from the other list
-            if list1.head == None:
-                merged.insert(list2.head.data)
-                list2.remove(list2.head.data)
-                continue
-            elif list2.head == None:
-                merged.insert(list1.head.data)
-                list1.remove(list1.head.data)
-                continue
+        if self.is_empty():
+            return other.copy()
+        elif other.is_empty():
+            return self.copy()
 
-            # Otherwise checks if the keys are the same
-            if list1.head.data == list2.head.data:
-                # Overwrites second list's value because it is the argument, not the instance
-                merged.insert(list1.head.data)
+        while current is not None:
+            merged.insert(current.data)
+            current = current.next
 
-                list1.remove(list1.head.data)
-                list2.remove(list2.head.data)
-            else:
-                # Minimum value inserted
-                if list1.head.data < list2.head.data:
-                    merged.insert(list1.head.data)
-                    list1.remove(list1.head.data)
-                else:
-                    merged.insert(list2.head.data)
-                    list2.remove(list2.head.data)
+            if current is None:
+                current = other.head
 
         return merged
-
 
     def copy(self):
         """Returns a copy of itself"""
@@ -75,11 +64,11 @@ class LinkedList(BaseLinkedList):
     def __str__(self):
         """Returns a string representation to visualize the linked list"""
         linkedNode = self.head
-        sList = ""
+        string = ""
 
         while linkedNode != None:
-            sList += "{} => ".format(linkedNode.data)
+            string += "{} => ".format(linkedNode.data)
             linkedNode = linkedNode.next
         
-        # sList[:-4] so the last arrow is removed
-        return (sList[:-4] if sList != "" else "The linked list is empty")
+        # string[:-4] so the last arrow is removed
+        return (string[:-4] if string != "" else "The linked list is empty")
