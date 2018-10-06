@@ -29,7 +29,7 @@ class BaseLinkedList:
         return False 
 
     def remove(self, value):
-        """Removes a value if it is present by the key"""
+        """Removes a value if it is present by the value"""
         current = self.head
 
         while current is not None:
@@ -56,10 +56,10 @@ class BaseLinkedList:
             current = current.next
             
         raise KeyError("Your item is not present in the list")
-        
+
+    @property   
     def count(self):
         """Returns the number of elements"""
-        # It could be replaced with __len__ as it is more pythonic, but I want to meet the requirements
         length = 0
         current = self.head
 

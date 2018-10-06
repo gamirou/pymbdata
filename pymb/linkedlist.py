@@ -5,7 +5,19 @@ from .basetypes.abstractlist import BaseLinkedList
 # https://www.geeksforgeeks.org/data-structures/linked-list/#doublyLinkedList
 
 class LinkedList(BaseLinkedList):
-    """An object that behaves like a linked list"""
+    """An object that behaves like a linked list
+    
+    * To add a value at the front, use linked.prepend(value),
+    * To add a value at the end, use linked.append(value),
+    * To remove a value, use linked.remove(value),
+    * To merge two lists, use linked.merge(other),
+    * To get the size, use linked.count,
+    * To return a copy, use linked.copy(),
+    * To replace a value, use linked.replace(old, new),
+    * To check if a value is present, use linked.find(value),
+    * To check if the linked list is empty, use linked.is_empty(),
+    * To clear a linked list, use linked.clear()
+    """
 
     def __init__(self, head = None, tail = None):
         super().__init__(head, tail)

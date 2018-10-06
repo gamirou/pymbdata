@@ -1,7 +1,20 @@
 import numpy as np
 
 class Matrix:
-    """A matrix implementation based on numpy array"""
+    """A matrix implementation based on numpy array
+    
+    Features:
+    * It is immutable (as the numpy array) (TODO: Thinking of scraping numpy),
+    * When initialized, all values are set to 0
+
+    Methods
+    * To replace a value, use matrix[row, col] = value,
+    * To get a value, use matrix[row][col] or matrix[row, col],
+    * To get the determinant, use matrix.determinant (2x2 and 3x3),
+    * To check if it is symmetric, use matrix.is_symmetric() -> True/False,
+    * To transpose current matrix, use matrix.transposed(),
+    * To get a new transposed matrix, use matrix.transpose()
+    """
 
     def __init__(self, rows=None, cols=None):
         if cols is None:
@@ -58,6 +71,7 @@ class Matrix:
         return str(self.items)
 
     def copy(self):
+        """Returns a copy of itself"""
         matrix = Matrix(self.rows, self.cols)
         matrix.items = self.items.copy()
         return matrix
@@ -78,7 +92,7 @@ class Matrix:
         """Transposes the current matrix"""
         self = self.transpose()
 
-    def isSymmetric(self):
+    def is_symmetric(self):
         if self.rows != self.cols:
             raise ValueError("Your matrix has to have the same number of rows and columns.")
         

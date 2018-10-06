@@ -3,7 +3,20 @@ from .basetypes.abstractlist import BaseLinkedList
 
 
 class SortedLinkedList(BaseLinkedList):
-    """An object that behaves like a linked list. It is sorted, unlike normal linked lists"""
+    """An object that behaves like a linked list. It is sorted, unlike normal linked lists
+    
+    * To insert a value, use linked.insert(value),
+    * To remove a value, use linked.remove(value),
+    * To merge two lists, use linked.merge(other, isHash=False),
+    * To get the size, use linked.count,
+    * To return a copy, use linked.copy(),
+    * To replace a value, use linked.replace(old, new),
+    * To check if a value is present, use linked.find(value),
+    * To check if the linked list is empty, use linked.is_empty(),
+    * To clear a linked list, use linked.clear(),
+
+    TODO: Needs refactoring to some aspects because it might not work when alone and not in a hash table.
+    """
 
     def __init__(self, head = None, tail = None):
         super().__init__(head, tail)
