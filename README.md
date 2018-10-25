@@ -12,18 +12,18 @@ Numpy is used in the matrix, but it will be automatically installed when you ins
 
 ### Installing
 
-A step by step series of examples that tell you how to get a development env running
+To install the library you need to have PIP installed
 
-Say what the step will be
-
-```
-Give the example
-```
-
-And repeat
+Installing the library
 
 ```
-until finished
+pip install pymbdata
+```
+
+To import it in a python script
+
+```
+import pymb
 ```
 
 End with an example of getting some data out of the system or using it for a little demo
